@@ -12,7 +12,15 @@ public class UserCommand {
 
     private final UserService userService;
 
-    @ShellMethod(key = "sign in privileged", value = "Sign in as privileged user")
+    @ShellMethod(key = "describe account", value = "describe account")
+    public String describeAccount() {
+        return userService.describe()
+                .map(userDto -> "Signed in with " + (userDto.role() == User.Role.ADMIN ? "privileged" : "standard")
+                        + " account '" + userDto.username() + "'")
+                .orElse("You are not signed in");
+    }
+
+    @ShellMethod(key = "sign in privileged", value = "sign in privileged")
     public String signIn(String username, String password) {
         userService.logout();
         return userService.login(username, password)
@@ -21,22 +29,14 @@ public class UserCommand {
                 .orElse("Login failed due to incorrect credentials");
     }
 
-    @ShellMethod(key = "sign out", value = "Sign out")
+    @ShellMethod(key = "sign out", value = "sign out")
     public String signOut() {
         return userService.logout()
                 .map(userDto -> userDto.username() + " is logged out!")
                 .orElse("You need to login first!");
     }
 
-    @ShellMethod(key = "describe account", value = "Describe the currently signed-in account")
-    public String describeAccount() {
-        return userService.describe()
-                .map(userDto -> "Signed in with " + (userDto.role() == User.Role.ADMIN ? "privileged" : "standard")
-                        + " account '" + userDto.username() + "'")
-                .orElse("You are not signed in");
-    }
-
-    @ShellMethod(key = "admin task", value = "Perform an admin-only task")
+    @ShellMethod(key = "admin task", value = "admin task")
     public String performAdminTask() {
         if (!userService.isAdminLoggedIn()) {
             return "Access denied. Please sign in as an admin.";

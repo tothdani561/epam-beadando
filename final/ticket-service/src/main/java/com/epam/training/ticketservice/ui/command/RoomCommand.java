@@ -17,6 +17,23 @@ public class RoomCommand {
     private final RoomService roomService;
     private final UserService userService;
 
+    @ShellMethod(key = "list rooms", value = "List all rooms")
+    public String listRooms() {
+        List<RoomDto> rooms = roomService.getAllRooms();
+        if (rooms.isEmpty()) {
+            return "There are no rooms at the moment";
+        }
+        return rooms.stream()
+                .map(room -> String.format(
+                        "Room %s with %d seats, %d rows and %d columns",
+                        room.roomName(),
+                        room.rows() * room.cols(),
+                        room.rows(),
+                        room.cols()
+                ))
+                .collect(Collectors.joining("\n"));
+    }
+
     @ShellMethod(key = "create room", value = "Create a new room")
     public String createRoom(String name, int rows, int columns) {
         if (!userService.isAdminLoggedIn()) {
@@ -58,22 +75,5 @@ public class RoomCommand {
         } catch (IllegalArgumentException e) {
             return e.getMessage();
         }
-    }
-
-    @ShellMethod(key = "list rooms", value = "List all rooms")
-    public String listRooms() {
-        List<RoomDto> rooms = roomService.getAllRooms();
-        if (rooms.isEmpty()) {
-            return "There are no rooms at the moment";
-        }
-        return rooms.stream()
-                .map(room -> String.format(
-                        "Room %s with %d seats, %d rows and %d columns",
-                        room.roomName(),
-                        room.rows() * room.cols(),
-                        room.rows(),
-                        room.cols()
-                ))
-                .collect(Collectors.joining("\n"));
     }
 }

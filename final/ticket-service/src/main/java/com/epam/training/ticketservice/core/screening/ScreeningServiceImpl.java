@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -27,49 +28,51 @@ public class ScreeningServiceImpl implements ScreeningService {
         String roomName = screeningDto.roomName();
         LocalDateTime startTime = screeningDto.startTime();
 
-        // Film létezésének ellenőrzése
-        var movieOptional = movieService.getAllMovies()
-                .stream()
+        // Ellenőrizzük, hogy a film és a terem létezik
+        var movieOptional = movieService.getAllMovies().stream()
                 .filter(movie -> movie.title().equals(movieTitle))
+                .findFirst();
+
+        var roomOptional = roomService.getAllRooms().stream()
+                .filter(room -> room.roomName().equals(roomName))
                 .findFirst();
 
         if (movieOptional.isEmpty()) {
             throw new IllegalArgumentException("Movie with title '" + movieTitle + "' does not exist");
         }
 
-        // Terem létezésének ellenőrzése
-        var roomOptional = roomService.getAllRooms()
-                .stream()
-                .filter(room -> room.roomName().equals(roomName))
-                .findFirst();
-
         if (roomOptional.isEmpty()) {
             throw new IllegalArgumentException("Room with name '" + roomName + "' does not exist");
         }
 
-        // Lekérjük a film hosszát
-        int movieDuration = movieOptional.get().duration();
-
         // Vetítés időtartamának kiszámítása
+        int movieDuration = movieOptional.get().duration();
         LocalDateTime endTime = startTime.plusMinutes(movieDuration);
-        LocalDateTime breakEndTime = endTime.plusMinutes(10);
 
         // Ütközés ellenőrzése
-        List<Screening> overlappingScreenings = screeningRepository.findAll()
-                .stream()
-                .filter(screening -> screening.getRoom().getRoomName().equals(roomName))
-                .filter(screening -> {
-                    LocalDateTime screeningEnd = screening.getStartTime()
-                            .plusMinutes(screening.getMovie().getDuration());
-                    LocalDateTime screeningBreakEnd = screeningEnd.plusMinutes(10);
+        boolean hasOverlap = screeningRepository.findAll().stream()
+                .filter(screening -> screening.getRoom().getRoomName().equals(roomName)) // Csak az adott terem
+                .anyMatch(screening -> {
+                    LocalDateTime existingStart = screening.getStartTime();
+                    LocalDateTime existingEnd = existingStart.plusMinutes(screening.getMovie().getDuration());
+                    return startTime.isBefore(existingEnd) && endTime.isAfter(existingStart);
+                });
 
-                    return !(endTime.isBefore(screening.getStartTime()) || breakEndTime.isBefore(screening.getStartTime())) &&
-                            !(startTime.isAfter(screeningBreakEnd));
-                })
-                .toList();
-
-        if (!overlappingScreenings.isEmpty()) {
+        if (hasOverlap) {
             throw new IllegalArgumentException("There is an overlapping screening");
+        }
+
+        // 10 perces szünet ellenőrzése
+        boolean isInBreakPeriod = screeningRepository.findAll().stream()
+                .filter(screening -> screening.getRoom().getRoomName().equals(roomName)) // Csak az adott terem
+                .anyMatch(screening -> {
+                    LocalDateTime existingEnd = screening.getStartTime().plusMinutes(screening.getMovie().getDuration());
+                    LocalDateTime breakEnd = existingEnd.plusMinutes(10); // 10 perces szünet vége
+                    return startTime.isBefore(breakEnd) && startTime.isAfter(existingEnd);
+                });
+
+        if (isInBreakPeriod) {
+            throw new IllegalArgumentException("This would start in the break period after another screening in this room");
         }
 
         // Vetítés létrehozása
@@ -101,6 +104,7 @@ public class ScreeningServiceImpl implements ScreeningService {
     @Override
     public List<ScreeningDto> listScreenings() {
         return screeningRepository.findAll().stream()
+                .sorted(Comparator.comparing(Screening::getStartTime)) // Időrend (növekvő)
                 .map(screening -> new ScreeningDto(
                         screening.getMovie().getTitle(),
                         screening.getRoom().getRoomName(),

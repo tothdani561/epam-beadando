@@ -84,3 +84,14 @@
 1733145980074:create room "Nolan" 8 12
 1733145990458:create screening "Spirited Away" Pedersoli "2021-03-14 16:00"
 1733145996128:list screenings
+1733148827869:sign in privileged admin admin
+1733148832256:describe account
+1733152376713:sign in privileged admin admin
+1733152422134:create room Pedersoli 20 10
+1733152425761:create room Girotti 10 10
+1733152431162:create movie Sátántangó drama 450
+1733152435931:create movie \\"Spirited Away\\" animation 125
+1733152443888:create movie "Spirited Away" animation 125
+1733152459475:create screening Sátántangó Pedersoli "2021-03-15 10:45"
+1733152475565:create screening "Spirited Away" Pedersoli "2021-03-14 16:00"
+1733152481483:list screenings

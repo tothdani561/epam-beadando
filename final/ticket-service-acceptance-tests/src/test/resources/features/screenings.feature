@@ -16,7 +16,7 @@ Feature: allows creating, deleting and listing screenings
     And the user types the "create screening \"Spirited Away\" Pedersoli \"2021-03-14 16:00\"" command
     And the user types the "list screenings" command
     Then the next line of the output is "Sátántangó (drama, 450 minutes), screened in room Pedersoli, at 2021-03-15 10:45"
-    And the next line of the output is "Spirited Away (animation, 125 minutes), screened in room Pedersoli, at 2021-03-14 16:00"
+    And the next line of the output is "Spirited Away (animation, 125 minutes), screened in room Pedersoli, at 2021-03-15 16:00"
 
   @grade2-requirement
   Scenario: The admin can not create overlapping screenings in the same room

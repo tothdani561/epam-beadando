@@ -17,6 +17,17 @@ public class MovieCommand {
     private final MovieService movieService;
     private final UserService userService;
 
+    @ShellMethod(key = "list movies", value = "List all movies")
+    public String listMovies() {
+        List<MovieDto> movies = movieService.getAllMovies();
+        if (movies.isEmpty()) {
+            return "There are no movies at the moment";
+        }
+        return movies.stream()
+                .map(movie -> String.format("%s (%s, %d minutes)", movie.title(), movie.genre(), movie.duration()))
+                .collect(Collectors.joining("\n"));
+    }
+
     @ShellMethod(key = "create movie", value = "Create a new movie")
     public String createMovie(String title, String genre, int duration) {
         if (!userService.isAdminLoggedIn()) {
@@ -43,18 +54,6 @@ public class MovieCommand {
             return e.getMessage();
         }
     }
-
-    @ShellMethod(key = "list movies", value = "List all movies")
-    public String listMovies() {
-        List<MovieDto> movies = movieService.getAllMovies();
-        if (movies.isEmpty()) {
-            return "There are no movies at the moment";
-        }
-        return movies.stream()
-                .map(movie -> String.format("%s (%s, %d minutes)", movie.title(), movie.genre(), movie.duration()))
-                .collect(Collectors.joining("\n"));
-    }
-
 
     @ShellMethod(key = "delete movie", value = "Delete an existing movie")
     public String deleteMovie(String title) {
