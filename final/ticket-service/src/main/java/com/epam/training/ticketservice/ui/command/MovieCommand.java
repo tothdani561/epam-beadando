@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @ShellComponent
 @AllArgsConstructor
 public class MovieCommand {
@@ -40,6 +43,18 @@ public class MovieCommand {
             return e.getMessage();
         }
     }
+
+    @ShellMethod(key = "list movies", value = "List all movies")
+    public String listMovies() {
+        List<MovieDto> movies = movieService.getAllMovies();
+        if (movies.isEmpty()) {
+            return "There are no movies at the moment";
+        }
+        return movies.stream()
+                .map(movie -> String.format("%s (%s, %d minutes)", movie.title(), movie.genre(), movie.duration()))
+                .collect(Collectors.joining("\n"));
+    }
+
 
     @ShellMethod(key = "delete movie", value = "Delete an existing movie")
     public String deleteMovie(String title) {

@@ -6,6 +6,8 @@ import com.epam.training.ticketservice.core.movie.persistence.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MovieServiceImpl implements MovieService {
@@ -39,5 +41,13 @@ public class MovieServiceImpl implements MovieService {
             throw new IllegalArgumentException("Movie with title '" + title + "' does not exist");
         }
         movieRepository.deleteById(title);
+    }
+
+    @Override
+    public List<MovieDto> getAllMovies() {
+        return movieRepository.findAll()
+                .stream()
+                .map(movie -> new MovieDto(movie.getTitle(), movie.getGenre(), movie.getDuration()))
+                .toList();
     }
 }

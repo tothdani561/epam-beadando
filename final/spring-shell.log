@@ -31,3 +31,28 @@
 1733138150821:sign in privileged admin admin
 1733138160830:create movie Sátántangó drama 450
 1733138178782:delete movie Sátántangó
+1733138746373:create movie Sátántangó drama 450
+1733138755581:sign in privileged admin admin
+1733138761617:reate movie Sátántangó drama 450
+1733138775748:create movie Sátántangó drama 450
+1733138795293:create movie Alkonyat thriller 500
+1733138799421:sign out
+1733138807316:list movies
+1733140126678:create room ElsoTerem 5 5
+1733140135473:sign in privileged admin admin
+1733140140744:create room ElsoTerem 5 5
+1733140418738:sign in privileged admin admin
+1733140434114:create room testroom 5 5
+1733140444385:update room testroom 10 10
+1733140585825:sign in privileged admin admin
+1733140604427:create room testroom 5 5
+1733140714768:delete room testroom
+1733140725582:create room testroom 5 5
+1733140730612:delete room testroom
+1733140977789:sign in privileged admin admin
+1733140988881:create room testroom 5 5
+1733140995805:create room testroom2 5 5
+1733141000536:create room testroom3 15 15
+1733141008244:list rooms
+1733141020312:sign out
+1733141025139:list rooms
