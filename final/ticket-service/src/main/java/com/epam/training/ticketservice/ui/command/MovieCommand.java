@@ -27,4 +27,30 @@ public class MovieCommand {
             return e.getMessage();
         }
     }
+
+    @ShellMethod(key = "update movie", value = "Update an existing movie")
+    public String updateMovie(String title, String genre, int duration) {
+        if (!userService.isAdminLoggedIn()) {
+            return "Access denied. Please sign in as an admin.";
+        }
+        try {
+            movieService.updateMovie(title, genre, duration);
+            return "Movie '" + title + "' updated successfully!";
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
+        }
+    }
+
+    @ShellMethod(key = "delete movie", value = "Delete an existing movie")
+    public String deleteMovie(String title) {
+        if (!userService.isAdminLoggedIn()) {
+            return "Access denied. Please sign in as an admin.";
+        }
+        try {
+            movieService.deleteMovie(title);
+            return "Movie '" + title + "' deleted successfully!";
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
+        }
+    }
 }

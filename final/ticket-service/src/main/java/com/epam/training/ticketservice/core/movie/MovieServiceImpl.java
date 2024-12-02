@@ -22,4 +22,22 @@ public class MovieServiceImpl implements MovieService {
         Movie movie = new Movie(movieDto.title(), movieDto.genre(), movieDto.duration());
         movieRepository.save(movie);
     }
+
+    @Override
+    public void updateMovie(String title, String genre, int duration) {
+        Movie movie = movieRepository.findById(title)
+                .orElseThrow(() -> new IllegalArgumentException("Movie with title '" + title + "' does not exist"));
+
+        movie.setGenre(genre);
+        movie.setDuration(duration);
+        movieRepository.save(movie);
+    }
+
+    @Override
+    public void deleteMovie(String title) {
+        if (!movieRepository.existsById(title)) {
+            throw new IllegalArgumentException("Movie with title '" + title + "' does not exist");
+        }
+        movieRepository.deleteById(title);
+    }
 }
