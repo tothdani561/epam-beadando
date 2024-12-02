@@ -1,2 +1,7 @@
 target
 .idea
+final/spring-shell.log
+final/spring-shell.log.lck
+final/spring-shell.log.1
+
+*.log
