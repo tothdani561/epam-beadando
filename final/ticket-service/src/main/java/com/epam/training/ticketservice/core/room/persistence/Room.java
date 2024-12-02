@@ -1,9 +1,11 @@
 package com.epam.training.ticketservice.core.room.persistence;
 
+import com.epam.training.ticketservice.core.room.model.RoomDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -14,7 +16,13 @@ import javax.persistence.Id;
 public class Room {
 
     @Id
+    @Column(name = "name", nullable = false)
     private String roomName;
     private int rows;
     private int cols;
+
+    public static Room fromDto(RoomDto dto) {
+        return new Room(dto.roomName(), dto.rows(), dto.cols());
+    }
+
 }

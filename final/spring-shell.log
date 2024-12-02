@@ -56,3 +56,31 @@
 1733141008244:list rooms
 1733141020312:sign out
 1733141025139:list rooms
+1733144155189:sign in privileged admin adminű
+1733144159193:sign in privileged admin admin
+1733144164349:create movie "Spirited Away" animation 125
+1733144168724:create movie "Inception" thriller 148
+1733144173448:create room "Pedersoli" 10 15
+1733144177814:create room "Nolan" 8 12
+1733144183249:create screening "Spirited Away" Pedersoli "2021-03-14 16:00"
+1733144191019:create screening "Spirited Away" Pedersoli "14-03-2021 16:00"
+1733144217625:create screening "Spirited Away" Pedersoli "2021-03-14 16:30"
+1733144224664:create screening "Spirited Away" Pedersoli "2021-03-14 17:00"
+1733144231134:create screening "NonExistentMovie" Pedersoli "2021-03-14 18:00"
+1733144237964:create screening "Spirited Away" NonExistentRoom "2021-03-14 19:00"
+1733145135062:sign in privileged admin admin
+1733145140292:create movie "Spirited Away" animation 125
+1733145143856:create movie "Inception" thriller 148
+1733145148389:create room "Pedersoli" 10 15
+1733145152450:create room "Nolan" 8 12
+1733145168296:create screening "Spirited Away" Pedersoli "2021-03-14 16:00"
+1733145180085:delete screening "Spirited Away" Pedersoli "2021-03-14 16:00"
+1733145185102:create screening "Spirited Away" Pedersoli "2021-03-14 16:00"
+1733145197669:delete screening "Spirited Away" Pedersoli "2021-03-14 16:00"
+1733145964297:sign in privileged admin admin
+1733145968430:create movie "Spirited Away" animation 125
+1733145972112:create movie "Inception" thriller 148
+1733145976275:create room "Pedersoli" 10 15
+1733145980074:create room "Nolan" 8 12
+1733145990458:create screening "Spirited Away" Pedersoli "2021-03-14 16:00"
+1733145996128:list screenings
