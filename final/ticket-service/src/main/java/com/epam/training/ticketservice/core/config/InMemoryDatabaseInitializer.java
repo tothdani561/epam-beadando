@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 
 @Component
 @RequiredArgsConstructor
-public class InMemoryDatabaseInitializer{
+public class InMemoryDatabaseInitializer {
 
     private final UserRepository userRepository;
 

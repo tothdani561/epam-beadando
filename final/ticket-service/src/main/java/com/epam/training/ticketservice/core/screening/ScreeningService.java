@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface ScreeningService {
     void createScreening(ScreeningDto screeningDto);
+
     void deleteScreening(ScreeningDto screeningDto);
+
     List<ScreeningDto> listScreenings();
 
 

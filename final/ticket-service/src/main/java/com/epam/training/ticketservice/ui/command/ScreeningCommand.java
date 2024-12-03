@@ -29,7 +29,8 @@ public class ScreeningCommand {
         }
 
         try {
-            LocalDateTime startTime = LocalDateTime.parse(startTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            LocalDateTime startTime = LocalDateTime.parse(
+                    startTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
             ScreeningDto screeningDto = new ScreeningDto(movieTitle, roomName, startTime);
 
@@ -49,7 +50,8 @@ public class ScreeningCommand {
         }
 
         try {
-            LocalDateTime startTime = LocalDateTime.parse(startTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+            LocalDateTime startTime = LocalDateTime.parse(
+                    startTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
             ScreeningDto screeningDto = new ScreeningDto(movieTitle, roomName, startTime);
 
@@ -75,6 +77,7 @@ public class ScreeningCommand {
                     String movieTitle = screening.movieTitle();
                     String roomName = screening.roomName();
                     LocalDateTime startTime = screening.startTime();
+
                     // Adatok kinyerése az entitásokból
                     var movieOptional = movieService.getAllMovies().stream()
                             .filter(movie -> movie.title().equals(movieTitle))
@@ -96,6 +99,4 @@ public class ScreeningCommand {
                 })
                 .collect(Collectors.joining("\n"));
     }
-
-
 }

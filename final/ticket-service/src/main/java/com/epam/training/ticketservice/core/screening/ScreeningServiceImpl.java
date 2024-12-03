@@ -66,13 +66,15 @@ public class ScreeningServiceImpl implements ScreeningService {
         boolean isInBreakPeriod = screeningRepository.findAll().stream()
                 .filter(screening -> screening.getRoom().getRoomName().equals(roomName)) // Csak az adott terem
                 .anyMatch(screening -> {
-                    LocalDateTime existingEnd = screening.getStartTime().plusMinutes(screening.getMovie().getDuration());
+                    LocalDateTime existingEnd = screening.getStartTime()
+                            .plusMinutes(screening.getMovie().getDuration());
                     LocalDateTime breakEnd = existingEnd.plusMinutes(10); // 10 perces szünet vége
                     return startTime.isBefore(breakEnd) && startTime.isAfter(existingEnd);
                 });
 
         if (isInBreakPeriod) {
-            throw new IllegalArgumentException("This would start in the break period after another screening in this room");
+            throw new IllegalArgumentException(
+                    "This would start in the break period after another screening in this room");
         }
 
         // Vetítés létrehozása
@@ -108,8 +110,7 @@ public class ScreeningServiceImpl implements ScreeningService {
                 .map(screening -> new ScreeningDto(
                         screening.getMovie().getTitle(),
                         screening.getRoom().getRoomName(),
-                        screening.getStartTime()
-                ))
+                        screening.getStartTime()))
                 .toList();
     }
 }

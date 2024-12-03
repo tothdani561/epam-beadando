@@ -2,12 +2,16 @@ package com.epam.training.ticketservice.core.screening.persistence;
 
 import com.epam.training.ticketservice.core.movie.persistence.Movie;
 import com.epam.training.ticketservice.core.room.persistence.Room;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.Column;
+import javax.persistence.PrePersist;
 import java.time.LocalDateTime;
 
 @Entity
@@ -44,4 +48,3 @@ public class Screening {
         this.startTime = startTime;
     }
 }
-
