@@ -5,6 +5,7 @@ import com.epam.training.ticketservice.core.room.persistence.Room;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,7 +13,6 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @IdClass(ScreeningId.class)
 public class Screening {
 
@@ -29,5 +29,19 @@ public class Screening {
     @Id
     @Column(nullable = false)
     private LocalDateTime startTime;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Screening(Movie movie, Room room, LocalDateTime startTime) {
+        this.movie = movie;
+        this.room = room;
+        this.startTime = startTime;
+    }
 }
 

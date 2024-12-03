@@ -104,7 +104,7 @@ public class ScreeningServiceImpl implements ScreeningService {
     @Override
     public List<ScreeningDto> listScreenings() {
         return screeningRepository.findAll().stream()
-                .sorted(Comparator.comparing(Screening::getStartTime)) // Időrend (növekvő)
+                .sorted(Comparator.comparing(Screening::getCreatedAt)) // Hozzáadás sorrendje
                 .map(screening -> new ScreeningDto(
                         screening.getMovie().getTitle(),
                         screening.getRoom().getRoomName(),
