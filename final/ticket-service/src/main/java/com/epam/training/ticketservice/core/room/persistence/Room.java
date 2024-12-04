@@ -18,7 +18,9 @@ public class Room {
     @Id
     @Column(name = "name", nullable = false)
     private String roomName;
-    private int rows;
+
+    @Column(name = "row_count") // Megváltoztatott oszlopnév
+    private Integer rows;
     private int cols;
 
     public static Room fromDto(RoomDto dto) {
